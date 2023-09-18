@@ -8,6 +8,15 @@ response = requests.get(URL)
 soup = BeautifulSoup(response.text, "html.parser")
 result = soup.find('title')
 print(result)
+print(result.text)
+soup.find("p")
+soup.find_all("p",limit=2)
+soup.find("th","tablehead")
+soup.find("th", class_="tablehead")
+soup.find("th", attrs={"class":"tablehead"})
+soup.find("h1", attrs={"title":"welcome"})
+soup.find(id="hello")
+# print(result.text)
 # from bs4 import BeautifulSoup
 # import urllib.request
 # from urllib.parse import quote
