@@ -26,10 +26,13 @@ target_col = 'Price'
 
 # Preprocessing for categorical data
 categorical_cols = [cname for cname in feature_cols if df[cname].dtype == "object"]
-numerical_cols = [cname for cname in feature_cols if df[cname].dtype in ['int64', 'float64']]
+numerical_cols = [cname for cname in feature_cols if cname != target_col and df[cname].dtype in ['int64', 'float64']]
 
 # Preprocessing for numerical data
-numerical_transformer = SimpleImputer(strategy='constant')
+numerical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='mean')),
+    ('scaler', StandardScaler())
+])
 
 # Preprocessing for categorical data
 categorical_transformer = Pipeline(steps=[
@@ -50,7 +53,7 @@ model = LinearRegression()
 # Bundle preprocessing and modeling code in a pipeline
 pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                            ('model', model)
-                          ])
+                           ])
 
 # Separate target from predictors
 X = df.drop(target_col, axis=1)
